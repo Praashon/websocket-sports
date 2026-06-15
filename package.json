@@ -8,8 +8,7 @@
     "start": "node src/index.js",
     "db:generate": "drizzle-kit generate --config=drizzle.config.js",
     "db:migrate": "drizzle-kit migrate --config=drizzle.config.js",
-    "db:studio": "drizzle-kiy studio",
-    "db:demo": "node src/crud-demo.js"
+    "db:studio": "drizzle-kit studio --config=drizzle.config.js"
   },
   "keywords": [],
   "author": "",

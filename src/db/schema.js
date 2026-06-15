@@ -6,6 +6,8 @@ import {
     integer,
     timestamp,
     jsonb,
+    check,
+    index
 } from 'drizzle-orm/pg-core';
 
 
@@ -27,7 +29,10 @@ export const matches = pgTable('matches', {
     homeScore: integer('home_score').default(0).notNull(),
     awayScore: integer('away_score').default(0).notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
-});
+}, (table) => ({
+    homeScoreNonNegative: check('matches_home_score_non_negative', sql`${table.homeScore} >= 0`),
+    awayScoreNonNegative: check('matches_away_score_non_negative', sql`${table.awayScore} >= 0`),
+}));
 
 
 export const commentary = pgTable('commentary', {
@@ -45,4 +50,6 @@ export const commentary = pgTable('commentary', {
     metadata: jsonb('metadata'),
     tags: text('tags').array(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
-});
+}, (table) => ({
+    commentaryMatchIdIdx: index('commentary_match_id_idx').on(table.matchId),
+}));
